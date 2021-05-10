@@ -1,6 +1,4 @@
 # Instalacja
-Myślałem, że pipenv fajnie zadziała albo będzie się dało jakoś to zrobić na requirements.txt, ale nie, bo klarin sobie zrobiło własny indeks z modułem.
-
 Najprościej zainstalować przez [pipenv](https://github.com/pypa/pipenv):
 ``` bash
 
