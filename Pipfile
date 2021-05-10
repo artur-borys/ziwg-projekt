@@ -6,8 +6,12 @@ name = "pypi"
 [packages]
 pandas = "*"
 lpmn-client = {version = "*", index = "https://pypi.clarin-pl.eu"}
+tensorflow = "*"
+scikit-learn = "*"
+matplotlib = "*"
+openpyxl = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.8"
