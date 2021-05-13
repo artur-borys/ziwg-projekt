@@ -11,14 +11,34 @@ DOWNLOAD_RESULT = 'download'
 
 IGNORED_CHARS = ['.', ',', '!', '?', ';', ':', '-', '(', ')', '[', ']', '{', '}']
 
-def request(lpmn: str, text: str, user: str):
+USER = ''
+
+def set_user(user: str):
+  """ Ustawia użytkownika jaki wykonuje zapytania do clarinu. Powinien to być adres e-mail"""
+  global USER
+  USER = user
+
+
+def request(lpmn: str, text: str):
+  """Wywołuje zapytanie do API Clarinu i zwraca odpowiedź w formie tekstu.
+  
+  Argumenty:
+  lpmn -- zapytanie lpmn https://wiki.clarin-pl.eu/pl/nlpws/query
+  text -- tekst na jakim mają zostać wykonane operacje z lpmn
+
+  Wyjątek:
+  ValueError -- wymaga określenia użytkownika za pomocą set_user()
+  """
+
+  if len(USER.strip()) == 0:
+    raise ValueError('Musisz określić użytkownika (set_user())')
   requestUrl = parse.urljoin(BASE_URL, START_TASK)
   print(requestUrl)
   requestData = {
     'application': 'ws.clarin-pl.eu',
     'lpmn': lpmn,
     'text': text,
-    'user': user
+    'user': USER
   }
 
   r = requests.post(requestUrl, json.dumps(requestData))
@@ -46,8 +66,20 @@ def request(lpmn: str, text: str, user: str):
   r = requests.get(downloadUrl)
   return r.text
 
-def get_base_words(xml_data: str, as_str=True):
-  bs = BeautifulSoup(xml_data, 'lxml')
+def get_base_words(text: str, as_str=True):
+  """ Zwraca tekst albo tablicę złożoną z podstawowych form wyrazów w podanym tekście.
+  Usuwa znaki interpunkcyjne (ale to jest do dopracowania)
+  
+  Argumenty:
+  text: str -- tekst do przetworzenia
+  as_str: bool -- jeśli prawda to zwraca tekst, a jeśli fałsz to zwraca tablicę ze słowami
+  """
+
+  lpmn = 'any2txt|wcrft2|liner2({"model":"top9"})'
+  text = 'Woda jest jedną z najpospolitszych substancji we Wszechświecie.Cząsteczka wody jest trzecią najbardziej rozpowszechnioną molekułą w ośrodku międzygwiazdowym, po cząsteczkowym wodorze i tlenku węgla. Jest również szeroko rozpowszechniona w Układzie Słonecznym: stanowi istotny element budowy Ceres i księżyców lodowych krążących wokół planet-olbrzymów, jako domieszka występuje w ich atmosferach, a przypuszcza się, że duże jej ilości znajdują się we wnętrzach tych planet. Jako lód występuje także na części planetoid, a zapewne również na obiektach transneptunowych. Woda jest bardzo rozpowszechniona także na powierzchni Ziemi. Występuje głównie w oceanach, które pokrywają 70,8% powierzchni globu, ale także w rzekach, jeziorach i w postaci stałej w lodowcach. Część wody znajduje się w atmosferze (chmury, para wodna). Niektóre związki chemiczne zawierają cząsteczki wody w swojej budowie (hydraty – określa się ją wówczas mianem wody krystalizacyjnej). Zawartość wody włączonej w strukturę minerałów w płaszczu Ziemi może przekraczać łączną zawartość wody w oceanach i innych zbiornikach powierzchniowych nawet dziesięciokrotnie.'
+
+  response = request(lpmn, text)
+  bs = BeautifulSoup(response, 'lxml')
   base_tags = bs.select('tok lex:first-of-type base')
   base_words = []
   for base_tag in base_tags:
@@ -60,10 +92,7 @@ def get_base_words(xml_data: str, as_str=True):
   return base_words
 
 if __name__ == '__main__':
-  lpmn = 'any2txt|wcrft2|liner2({"model":"top9"})'
   text = 'Woda jest jedną z najpospolitszych substancji we Wszechświecie.Cząsteczka wody jest trzecią najbardziej rozpowszechnioną molekułą w ośrodku międzygwiazdowym, po cząsteczkowym wodorze i tlenku węgla. Jest również szeroko rozpowszechniona w Układzie Słonecznym: stanowi istotny element budowy Ceres i księżyców lodowych krążących wokół planet-olbrzymów, jako domieszka występuje w ich atmosferach, a przypuszcza się, że duże jej ilości znajdują się we wnętrzach tych planet. Jako lód występuje także na części planetoid, a zapewne również na obiektach transneptunowych. Woda jest bardzo rozpowszechniona także na powierzchni Ziemi. Występuje głównie w oceanach, które pokrywają 70,8% powierzchni globu, ale także w rzekach, jeziorach i w postaci stałej w lodowcach. Część wody znajduje się w atmosferze (chmury, para wodna). Niektóre związki chemiczne zawierają cząsteczki wody w swojej budowie (hydraty – określa się ją wówczas mianem wody krystalizacyjnej). Zawartość wody włączonej w strukturę minerałów w płaszczu Ziemi może przekraczać łączną zawartość wody w oceanach i innych zbiornikach powierzchniowych nawet dziesięciokrotnie.'
-  user = '241323@student.pwr.edu.pl'
+  set_user('241323@student.pwr.edu.pl')
 
-  response = request(lpmn, text, user)
-
-  print(get_base_words(response))
+  print(get_base_words(text))
