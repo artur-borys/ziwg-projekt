@@ -1,8 +1,8 @@
 from similiarities import calculate_cosine_similarity_for_pairs
 from utils import convert_statements_to_base_words_and_load, export_to_excel, load_statements
 
-# corpus = load_statements('./wypowiedzi.tsv')
-corpus = convert_statements_to_base_words_and_load('./wypowiedzi.tsv')
+corpus = load_statements('./wypowiedzi_base.tsv')
+# corpus = convert_statements_to_base_words_and_load('./wypowiedzi.tsv')
 
 
 #BoW
