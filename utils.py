@@ -1,3 +1,4 @@
+from itertools import combinations
 from os import stat
 import pandas as pd
 from requests.api import head
@@ -61,6 +62,10 @@ def load_statements(filepath: str) -> pd.DataFrame:
   print('Gotowe')
 
   return statements
+
+def get_pairs(corpus: pd.DataFrame):
+  """ Zwraca wszystkie pary wyrażeń w podanym korpusie"""
+  return combinations(corpus.iterrows(), 2)
   
 def convert_statements_to_base_words_and_load(filepath: str) -> pd.DataFrame:
   statements = load_statements(filepath)
