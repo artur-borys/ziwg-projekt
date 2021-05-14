@@ -50,7 +50,7 @@ def export_to_excel(corpus, similarities, filename='results'):
 
 
 def load_statements(filepath: str) -> pd.DataFrame:
-  print('Wczytywanie korpusu z pliku CSV')
+  print('Wczytywanie korpusu z pliku TSV')
   statements = pd.read_csv(filepath, sep="\t")
   
   # pandas błędnie odczytuje dodatkową kolumnę i trzeba ją usunąć
@@ -63,16 +63,8 @@ def load_statements(filepath: str) -> pd.DataFrame:
   return statements
   
 def convert_statements_to_base_words_and_load(filepath: str) -> pd.DataFrame:
-  print('Wczytywanie korpusu z pliku CSV')
-  statements = pd.read_csv(filepath, sep="\t")
+  statements = load_statements(filepath)
   
-  # pandas błędnie odczytuje dodatkową kolumnę i trzeba ją usunąć
-  statements = statements.iloc[:, 0:5]
-
-  # wyczyszczenie rekordów z pustą "Treścią"
-  statements.dropna(subset=["Treść"], inplace=True)
-
-  lpmn = 'any2txt|wcrft2|liner2({"model":"top9"})'
   user = '235730@student.pwr.edu.pl'
   clarin.set_user(user)
 
