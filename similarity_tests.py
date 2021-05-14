@@ -8,11 +8,16 @@ parser.add_argument('--all', '-a', action="store_true", help='Przeprowadź testy
 parser.add_argument('--bow', action="store_true")
 parser.add_argument('--tfidf', action="store_true")
 parser.add_argument('--jaccard', action="store_true")
+parser.add_argument('--full-words', action="store_true", help="Przeprowadź testy na pełnych, a nie na podstawowych formach wyrazów")
 
 args = parser.parse_args()
 
-corpus = load_statements('./wypowiedzi_base.tsv')
-# corpus = convert_statements_to_base_words_and_load('./wypowiedzi.tsv')
+if args.full_words:
+  print('Używanie korpusu z pełnymi wyrazami')
+  corpus = load_statements('./wypowiedzi.tsv')
+else:
+  print('Używanie korpusu z podstawowywmi formami wyrazów')
+  corpus = load_statements('./wypowiedzi_base.tsv')
 
 
 #BoW
