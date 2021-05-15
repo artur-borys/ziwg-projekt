@@ -1,4 +1,4 @@
-from similarities import calculate_cosine_similarity_for_pairs, jaccard_similarity_pairwise
+from similarities import calculate_cosine_similarity_for_pairs, jaccard_similarity_pairwise, doc2vec_similarity
 from utils import convert_statements_to_base_words_and_load, export_to_excel, load_statements
 import argparse
 
@@ -8,6 +8,7 @@ parser.add_argument('--all', '-a', action="store_true", help='Przeprowadź testy
 parser.add_argument('--bow', action="store_true")
 parser.add_argument('--tfidf', action="store_true")
 parser.add_argument('--jaccard', action="store_true")
+parser.add_argument('--doc2vec', action="store_true")
 parser.add_argument('--full-words', action="store_true", help="Przeprowadź testy na pełnych, a nie na podstawowych formach wyrazów")
 
 args = parser.parse_args()
@@ -35,3 +36,7 @@ if args.all or args.tfidf:
 if args.all or args.jaccard:
   jaccard_similarities = jaccard_similarity_pairwise(corpus)
   export_to_excel(corpus, jaccard_similarities, filename="results/jaccard_results")
+
+#Doc2Vec
+if args.all or args.doc2vec:
+  doc2vec_similarity()

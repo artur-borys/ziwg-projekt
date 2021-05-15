@@ -3,6 +3,8 @@ from os import stat
 import pandas as pd
 from requests.api import head
 import clarin
+import shutil
+from docx import Document
 
 def export_to_excel(corpus, similarities, filename='results'):
   print(f'Eksportowanie do arkusza Excel ({filename}.xlsx)...')
@@ -78,3 +80,14 @@ def convert_statements_to_base_words_and_load(filepath: str) -> pd.DataFrame:
   statements.to_csv(filepath.replace('.tsv', '_base.tsv'), sep="\t",index= False ,header=True)
 
   return statements
+
+def corpus_to_docx_to_zip():
+  corpus = load_statements('./wypowiedzi.tsv')
+  texts = corpus.values
+
+  for i in range(len(texts)):
+    document = Document()
+    document.add_paragraph(texts[i][4])
+    document.save('./texts/text-' + str(i) + '.docx')
+
+  shutil.make_archive('test', 'zip', './texts')

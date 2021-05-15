@@ -77,3 +77,17 @@ def jaccard_similarity_pairwise(corpus: pd.DataFrame) -> list:
   print('Gotowe')
   
   return similarities
+
+from lpmn_client.src.requester import Requester # pip install -i https://pypi.clarin-pl.eu lpmn_client
+
+def doc2vec_similarity():
+  requester = Requester('')
+  filename = ["./test.zip"] # zip file with any documents, for examples docx files
+  lpmn_query = """doc2vec|wcrft2"""  #wstaw tutaj zapytanie w LPMN-ie
+
+  requester.upload_files(filename)
+  response = requester.process_query(lpmn_query)
+  # requester.download_response(response,"./out.zip")
+  files = json.loads(response.content.decode("utf-8"))
+  for f in files["value"]:
+      requester.download_file(f["fileID"])
