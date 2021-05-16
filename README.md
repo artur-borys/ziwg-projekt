@@ -12,8 +12,8 @@ pipenv install --skip-lock
 # Potem aktywacja środowiska
 pipenv shell
 
-# A potem wywołanie, np. bow.py
-python bow.py
+# A potem np. przeprowadzenie wszystkich testów
+python similarity_tests.py --all
 ```
 
 **UWAGA** użyjcie swojego adresu e-mail w ``clarin.set_user(adres_email)``
