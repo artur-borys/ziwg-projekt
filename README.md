@@ -15,12 +15,17 @@ pipenv shell
 # A potem wywołanie, np. bow.py
 python bow.py
 ```
-# Struktura
-* ``main.py`` - w sumie sobie tak o jest, można zmienić, tam tylko próbowałem wczytać wypowiedzi z tsv
-* ``bow.py`` - tam jest kod dotyczący bag-of-words. Można dla każdej metody utworzyć osobny plik
-* ``clarin.py`` - kod komunikacji z API Clarinu
 
-Jutro albo dzisiaj zrobię jakiś moduł do operowania na korpusie, póki co popatrzcie do ``main.py`` albo ``bow.py`` i skopiujcie metodę ``load_statements()``
+**UWAGA** użyjcie swojego adresu e-mail w ``clarin.set_user(adres_email)``
+# Struktura
+* ~~``main.py``~~ - w sumie sobie tak o jest, można zmienić, tam tylko próbowałem wczytać wypowiedzi z tsv
+* ``clarin.py`` - kod komunikacji z API Clarinu
+* ``utils.py`` - zawiera przydatne funkcje pomocnicze, jak np. export do xlsx czy wczytanie wypowiedzi, czy wygenerowanie par dla danego zbioru
+* ``similarities.py`` - zawiera funkcje, które wykonują dane metody
+* ``similarity_tests.py`` - służy do przeprowadzania testów na metodach z ``similarities.py``. Można wywołać ``python similarity_tests.py --help`` żeby zobaczyć listę dostępnych argumentów: np. ``--all`` do przeprowadzenia wszystkich testów, albo ``--jaccard`` do przeprowadzenia tylko Jaccard Similarity
+* ``wypowiedzi.tsv`` - zawiera wypowiedzi wyeksportowane bezpośrednio z arkusza
+* ``wypowiedzi_base.tsv`` - zawiera wypowiedzi po sprowadzeniu wyrazów do formy podstawowej
+* ``results/*`` - tutaj należy zapisywać wyniki testów, patrz na plik ``similarity_tests.py``
 
 # Dokumentowanie
 Można skorzystać z [docstringów](https://www.python.org/dev/peps/pep-0257/). Wtedy po najechaniu myszą na daną metodę, powinien być widoczny opis i argumenty.
