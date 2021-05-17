@@ -12,6 +12,8 @@ def export_to_excel(corpus, similarities, filename='results'):
   party2_col = []
   text1_col = []
   text2_col = []
+  topic1_col = []
+  topic2_col = []
   score_col = []
 
   for data in similarities:
@@ -19,8 +21,10 @@ def export_to_excel(corpus, similarities, filename='results'):
     id2 = data[0][1]
     score = data[1]
 
-    text1 = corpus.loc[[id1], ['Temat (krótki opis)']].squeeze()
-    text2 = corpus.loc[[id2], ['Temat (krótki opis)']].squeeze()
+    text1 = corpus.loc[[id1], ['Treść']].squeeze()
+    text2 = corpus.loc[[id2], ['Treść']].squeeze()
+    topic1 = corpus.loc[[id1], ['Temat (krótki opis)']].squeeze()
+    topic2 = corpus.loc[[id2], ['Temat (krótki opis)']].squeeze()
     author1 = corpus.loc[[id1], ['Autor']].squeeze()
     author2 = corpus.loc[[id2], ['Autor']].squeeze()
     party1 = corpus.loc[[id1], ['Partia']].squeeze()
@@ -28,6 +32,8 @@ def export_to_excel(corpus, similarities, filename='results'):
 
     text1_col.append(text1)
     text2_col.append(text2)
+    topic1_col.append(topic1)
+    topic2_col.append(topic2)
     author1_col.append(author1)
     author2_col.append(author2)
     party1_col.append(party1)
@@ -35,13 +41,15 @@ def export_to_excel(corpus, similarities, filename='results'):
     score_col.append(score)
 
   data = {
-    'text1': text1_col,
-    'text2': text2_col,
+    'topic1': topic1_col,
+    'topic2': topic2_col,
     'score': score_col,
     'author1': author1_col,
     'author2': author2_col,
     'party1': party1_col,
-    'party2': party2_col
+    'party2': party2_col,
+    'text1': text1_col,
+    'text2': text2_col
   }
 
   df = pd.DataFrame(data=data)
