@@ -12,6 +12,8 @@ parser.add_argument('--full-words', action="store_true", help="Przeprowadź test
 
 args = parser.parse_args()
 
+words_filename = 'full' if args.full_words else 'base'
+
 if args.full_words:
   print('Używanie korpusu z pełnymi wyrazami')
   corpus = load_statements('./wypowiedzi.tsv')
@@ -23,15 +25,15 @@ else:
 #BoW
 if args.all or args.bow:
   bow_similarities = calculate_cosine_similarity_for_pairs(corpus, method='count')
-  export_to_excel(corpus, bow_similarities, filename="results/bow_cosine_results")
+  export_to_excel(corpus, bow_similarities, filename=f"results/bow_cosine_{words_filename}_results")
 
 
 #TF-IDF
 if args.all or args.tfidf:
   tfidf_similarities = calculate_cosine_similarity_for_pairs(corpus, 'tfidf')
-  export_to_excel(corpus, tfidf_similarities, filename="results/tfidf_cosine_results")
+  export_to_excel(corpus, tfidf_similarities, filename=f"results/tfidf_cosine_{words_filename}_results")
 
 #Jaccard
 if args.all or args.jaccard:
   jaccard_similarities = jaccard_similarity_pairwise(corpus)
-  export_to_excel(corpus, jaccard_similarities, filename="results/jaccard_results")
+  export_to_excel(corpus, jaccard_similarities, filename=f"results/jaccard_{words_filename}_results")
