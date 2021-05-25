@@ -33,6 +33,8 @@ Zwraca status i spis wszystkich endpointów, np.
 
 ### ``GET /text/{id}``
 Zwraca zawartość wypowiedzi o podanym ``id``, np.
+
+W przypadku nieznalezienia tekstu, nie wiem, pewnie HTTP 500
 ``` json
 // GET /text/1
 {
@@ -46,6 +48,8 @@ Zwraca zawartość wypowiedzi o podanym ``id``, np.
 
 ### ``POST /similarity/``
 Zwraca posortowaną listę według wyniku podobieństwa. Przyjmuje zapytanie o treści w formacie JSON:
+
+W przypadku błędu w zapytaniu, zwróci odpowiedź o kodzie 400 (Bad Request), a w kluczu `errors` będą opisane błędy.
 
 | Klucz  | Wartości |
 | -----  | -------- |
