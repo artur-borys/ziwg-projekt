@@ -7,6 +7,9 @@ python server.py [-p | --port numer_portu, domyślnie 8080]
 ## CORS
 Serwer powinien przyjmować zapytania cross-origin bez problemu
 
+## Postman
+Kolekcja zapytań w Postmanie jest dostępna [tutaj](./ziwg.postman_collection.json)
+
 ## Endpointy
 
 ### ``GET /``
