@@ -4,27 +4,30 @@ Serwer API można wywołać poprzez:
 python server.py [-p | --port numer_portu, domyślnie 8080]
 ```
 
+## CORS
+Serwer powinien przyjmować zapytania cross-origin bez problemu
+
 ## Endpointy
 
 ### ``GET /``
 Zwraca status i spis wszystkich endpointów, np.
 ``` json
 {
-    "status": "ok",
-    "endpoints": [
-        {
-            "method": "GET",
-            "path": "/"
-        },
-        {
-            "method": "GET",
-            "path": "/text/{id}"
-        },
-        {
-            "method": "POST",
-            "path": "/similarity/"
-        }
-    ]
+  "status": "ok",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/"
+    },
+    {
+      "method": "GET",
+      "path": "/text/{id}"
+    },
+    {
+      "method": "POST",
+      "path": "/similarity/"
+    }
+  ]
 }
 ```
 
@@ -33,11 +36,11 @@ Zwraca zawartość wypowiedzi o podanym ``id``, np.
 ``` json
 // GET /text/1
 {
-    "author": "Mateusz Morawiecki",
-    "party": "PiS",
-    "summary": "Wirus jest w odwrocie 2",
-    "date": "01.07.2020",
-    "content": "Cieszę się, że coraz mniej obawiamy się tego wirusa, tej epidemii. To jest dobre podejście, bo on jest w odwrocie. Już teraz nie trzeba się go bać. Trzeba pójść na wybory tłumnie 12 lipca. Wszyscy, zwłaszcza seniorzy, nie obawiajmy się, idźmy na wybory. To ważne, żeby móc kontynuować tę sprawiedliwą linię rozwoju."
+  "author": "Mateusz Morawiecki",
+  "party": "PiS",
+  "summary": "Wirus jest w odwrocie 2",
+  "date": "01.07.2020",
+  "content": "Cieszę się, że coraz mniej obawiamy się tego wirusa, tej epidemii. To jest dobre podejście, bo on jest w odwrocie. Już teraz nie trzeba się go bać. Trzeba pójść na wybory tłumnie 12 lipca. Wszyscy, zwłaszcza seniorzy, nie obawiajmy się, idźmy na wybory. To ważne, żeby móc kontynuować tę sprawiedliwą linię rozwoju."
 }
 ```
 
