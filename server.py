@@ -18,8 +18,8 @@ routes = web.RouteTableDef()
 
 app = web.Application()
 
-statements = load_statements('./wypowiedzi.tsv').reset_index(drop=True)
-statements_base = load_statements('./wypowiedzi_base.tsv').reset_index(drop=True)
+statements = load_statements('./wypowiedzi.tsv').reset_index(drop=True).fillna('')
+statements_base = load_statements('./wypowiedzi_base.tsv').reset_index(drop=True).fillna('')
 
 @routes.get('/')
 async def status(request):
@@ -134,7 +134,7 @@ def setup_middlewares(app: Application):
   app.middlewares.append(error_middleware)
 
 app.add_routes(routes)
-setup_middlewares(app)
+# setup_middlewares(app)
 
 cors = aiohttp_cors.setup(app, defaults={
   "*": aiohttp_cors.ResourceOptions(
