@@ -26,9 +26,14 @@ python similarity_tests.py --all
 * ``wypowiedzi.tsv`` - zawiera wypowiedzi wyeksportowane bezpośrednio z arkusza
 * ``wypowiedzi_base.tsv`` - zawiera wypowiedzi po sprowadzeniu wyrazów do formy podstawowej
 * ``results/*`` - tutaj należy zapisywać wyniki testów, patrz na plik ``similarity_tests.py``
+* ``server.py`` - serwer API projektu
 
 # Dokumentowanie
 Można skorzystać z [docstringów](https://www.python.org/dev/peps/pep-0257/). Wtedy po najechaniu myszą na daną metodę, powinien być widoczny opis i argumenty.
+
+# Serwer API
+Dokumentacja serwera API znajduje się [tutaj](./API.md)
+
 # API Clarin
 Czasem może się przydać wywołanie zapytania do [Clarinu](https://wiki.clarin-pl.eu/pl/nlpws/query).
 W pliku ``clarin.py`` będą znajdować się wszystkie służące temu metody.

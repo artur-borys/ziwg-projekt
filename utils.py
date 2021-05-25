@@ -86,3 +86,12 @@ def convert_statements_to_base_words_and_load(filepath: str) -> pd.DataFrame:
   statements.to_csv(filepath.replace('.tsv', '_base.tsv'), sep="\t",index= False ,header=True)
 
   return statements
+
+def translate_statement_dict(statement):
+  return {
+    'author': statement['Autor'],
+    'party': statement['Partia'],
+    'summary': statement['Temat (krótki opis)'],
+    'date': statement['Data'],
+    'content': statement['Treść']
+  }
