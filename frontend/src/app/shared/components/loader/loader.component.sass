@@ -1,0 +1,28 @@
+@import '../../../../styles.sass'
+
+\:host
+    position: absolute
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    display: flex
+    justify-content: center
+    padding-top: 50px
+
+.loader 
+    width: 50px
+    height: 50px
+    background-color: transparent
+    animation: rotate 0.25s linear infinite
+    border-left: 10px solid $primary
+    border-right: 10px solid $secondary
+    border-bottom: 10px solid $secondary
+    border-top: 10px solid $primary
+    border-radius: 50%
+
+@keyframes rotate
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)

@@ -1,0 +1,30 @@
+<section>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+        <div>
+            <label>Wprowadź wypowiedź polityka:</label>
+            <textarea formControlName="text"></textarea>
+        </div>
+        <div>
+            <label>Wybierz metode pomiaru podobieństwa:</label>
+            <select formControlName="method">
+                <option value="tfidf">TFIDF</option>
+                <option value="bow">Bag of Words</option>
+                <option value="jaccard">Jaccard</option>
+            </select>
+        </div>
+        <div>
+            <label>Wybierz wariant korpusu:</label>
+            <select formControlName="corpus_variant">
+                <option value="full">Pełne wypowiedzi</option>
+                <option value="base">Wypowiedzi w formie podstawowej</option>
+            </select>
+        </div>
+        <div class="buttons">
+            <button [disabled]="!form.valid" type="submit">Potwierdź</button>
+        </div>
+    </form>
+</section>
+<section class="statements">
+    <app-statement *ngFor="let statement of statements" [statement]="statement"></app-statement>
+    <app-loader *ngIf="isLoading"></app-loader>
+</section>
