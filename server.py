@@ -1,3 +1,5 @@
+import aiohttp
+from aiohttp.web_app import Application
 from aiohttp.web_exceptions import HTTPBadRequest
 from similarities import compare_text_with_corpus_cosine, compare_text_with_corpus_jaccard
 from utils import load_statements, translate_statement_dict
@@ -13,6 +15,8 @@ parser.add_argument('--port', '-p', type=int, help='Port nasłuchiwania', defaul
 args = parser.parse_args()
 
 routes = web.RouteTableDef()
+
+app = web.Application()
 
 statements = load_statements('./wypowiedzi.tsv').reset_index(drop=True)
 statements_base = load_statements('./wypowiedzi_base.tsv').reset_index(drop=True)
@@ -38,7 +42,7 @@ async def get_text(request):
   statement = statements.iloc[int(request.match_info['id'])]
   return web.json_response(translate_statement_dict(statement))
 
-@routes.post('/similarity/')
+@routes.post('/similarity')
 async def post_similarity(request):
   payload = await request.json()
   errors = []
@@ -83,9 +87,54 @@ async def post_similarity(request):
 
   return web.json_response(results)
 
-app = web.Application()
+async def handle_404(request):
+    return web.json_response({
+      'ok': False,
+      'errors': ['NOT_FOUND']
+    },
+    headers={'Access-Control-Allow-Origin': '*'}
+    )
+
+
+async def handle_500(request):
+  return web.json_response({
+    'ok': False,
+    'errors': ['INTERNAL_ERROR']
+  },
+    headers={'Access-Control-Allow-Origin': '*'}
+    )
+
+
+def create_error_middleware(overrides):
+  @web.middleware
+  async def error_middleware(request, handler):
+      try:
+          return await handler(request)
+      except web.HTTPException as ex:
+          override = overrides.get(ex.status)
+          if override:
+              resp = await override(request)
+              resp.set_status(ex.status)
+              return resp
+
+          raise
+      except:
+          resp = await overrides[500](request)
+          resp.set_status(500)
+          return resp
+
+  return error_middleware
+
+
+def setup_middlewares(app: Application):
+  error_middleware = create_error_middleware({
+    404: handle_404,
+    500: handle_500
+  })
+  app.middlewares.append(error_middleware)
 
 app.add_routes(routes)
+setup_middlewares(app)
 
 cors = aiohttp_cors.setup(app, defaults={
   "*": aiohttp_cors.ResourceOptions(
