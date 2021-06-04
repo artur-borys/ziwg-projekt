@@ -2,17 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { StatementDto } from '../dtos/statement';
+import { TextDto } from '../dtos/text';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SimilarityService {
+export class TextsService {
   private api = environment.api;
 
   constructor(private http: HttpClient) { }
 
-  getSimilarity(data: { text: string, method: string, corpus_variant: string, corpus_name: string }): Observable<StatementDto[]> {
-    return this.http.post<StatementDto[]>(this.api + 'similarity', data);
+  getText(id: number, corpus_name: string): Observable<TextDto[]> {
+    return this.http.get<TextDto[]>(this.api + `text/${id}?corpus_name=${corpus_name}`);
   }
 }
