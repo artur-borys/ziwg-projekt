@@ -27,19 +27,42 @@ Zwraca status i spis wszystkich endpointów, np.
       "path": "/text/{id}"
     },
     {
+      "method": "GET",
+      "path": "/corpuses"
+    },
+    {
       "method": "POST",
-      "path": "/similarity/"
+      "path": "/similarity"
     }
   ]
 }
 ```
 
-### ``GET /text/{id}``
-Zwraca zawartość wypowiedzi o podanym ``id``, np.
+### ``GET /corpuses``
+Zwraca listę dostępnych korpusów. Korpusy powinny być dodawane w dwóch
+wariantach do katalogu `corpuses`:
+* `nazwa_korpusu.tsv` - na wzór `wypowiedzi_politykow.tsv` - pełne formy tekstów
+* `nazwa_korpusu_base.tsv` - na wzór `wypowiedzi_politykow_base.tsv` - zlematyzowane teksty
 
-W przypadku nieznalezienia tekstu, nie wiem, pewnie HTTP 500
+Endpoint zwraca tylko rdzeń nazwy korpusu (a więc nie wyświetla wariantu `*_base.tsv`)
+
+Przykład:
 ``` json
-// GET /text/1
+// GET /corpuses
+{
+  "data": [
+    "wypowiedzi_politykow"
+  ]
+}
+```
+
+### ``GET /text/{id}?corpus_name=nazwa_korpusu``
+Zwraca zawartość tekstu o podanym ``id`` w podanym ``corpus_name``
+
+W przypadku nie znalezienia korpusu lub wypowiedzi, zwraca status 404.
+W przypadku nie podania `corpus_name` zwraca status 400
+``` json
+// GET /text/1?corpus_name=wypowiedzi_politykow
 {
   "author": "Mateusz Morawiecki",
   "party": "PiS",
@@ -59,6 +82,9 @@ W przypadku błędu w zapytaniu, zwróci odpowiedź o kodzie 400 (Bad Request), 
 | `method` | ``bow``, ``tfidf`` lub ``jaccard`` |
 | `text`   | tekst do analizy |
 | `corpus_variant` | `full` lub `base` |
+| `corpus_name` | jedna z wartości zwracanej przez ``GET /corpuses`` |
+
+Jeśli `corpus_variant` jest `base` to `text` jest również lematyzowany i porównywany ze zlematyzowanym korpusem.
 
 Przykład zapytania:
 ``` json
@@ -66,7 +92,8 @@ Przykład zapytania:
 {
   "method": "tfidf",
   "text": "Próbuje się nam proszę państwa wmówić, że to ludzie. A to jest po prostu ideologia. Jeżeli ktoś ma jakiekolwiek wątpliwości, czy to jest ideologia, czy nie, to niech sobie zajrzy w karty historii i zobaczy, jak wyglądało na świecie budowanie ruchu LGBT, niech zobaczy jak wyglądało budowanie tej ideologii, jakie poglądy głosili ci, którzy ją budowali.",
-  "corpus_variant": "base"
+  "corpus_variant": "full",
+  "corpus_name": "wypowiedzi_politykow"
 }
 ```
 
@@ -74,13 +101,13 @@ Przykład odpowiedzi:
 ``` json
 [
   {
-    "score": 0.32829168214011767,
+    "score": 0.999999999999999,
     "author": "Andrzej Duda",
     "party": "PiS",
     "summary": "LGBT",
     "date": "13.06.2020",
     "content": "Próbuje się nam proszę państwa wmówić, że to ludzie. A to jest po prostu ideologia. Jeżeli ktoś ma jakiekolwiek wątpliwości, czy to jest ideologia, czy nie, to niech sobie zajrzy w karty historii i zobaczy, jak wyglądało na świecie budowanie ruchu LGBT, niech zobaczy jak wyglądało budowanie tej ideologii, jakie poglądy głosili ci, którzy ją budowali."
-  },
+    },
   ...
 ]
 ```

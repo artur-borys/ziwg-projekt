@@ -33,7 +33,6 @@ def request(lpmn: str, text: str):
   if len(USER.strip()) == 0:
     raise ValueError('Musisz określić użytkownika (set_user())')
   requestUrl = parse.urljoin(BASE_URL, START_TASK)
-  print(requestUrl)
   requestData = {
     'application': 'ws.clarin-pl.eu',
     'lpmn': lpmn,

@@ -1,3 +1,4 @@
+import glob
 from itertools import combinations
 from os import stat
 import pandas as pd
@@ -59,7 +60,7 @@ def export_to_excel(corpus, similarities, filename='results'):
 
 
 def load_statements(filepath: str) -> pd.DataFrame:
-  print('Wczytywanie korpusu z pliku TSV')
+  print(f'Wczytywanie korpusu z pliku {filepath}')
   statements = pd.read_csv(filepath, sep="\t")
   
   # pandas błędnie odczytuje dodatkową kolumnę i trzeba ją usunąć
@@ -95,3 +96,9 @@ def translate_statement_dict(statement):
     'date': statement['Data'],
     'content': statement['Treść']
   }
+
+def get_available_corpuses():
+  # Find only primary corpuses, discard *_base variants
+  corpuses = glob.glob("./corpuses/*[!_base].tsv")
+  corpuses = [c.split('/')[2].split('.tsv')[0] for c in corpuses]
+  return corpuses
