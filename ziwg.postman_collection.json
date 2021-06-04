@@ -1,0 +1,74 @@
+{
+	"info": {
+		"_postman_id": "98feddf0-f00d-4138-a3d8-282b9898fdf9",
+		"name": "ziwg",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST text",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"method\": \"tfidf\",\n    \"text\": \"Próbuje się nam proszę państwa wmówić, że to ludzie. A to jest po prostu ideologia. Jeżeli ktoś ma jakiekolwiek wątpliwości, czy to jest ideologia, czy nie, to niech sobie zajrzy w karty historii i zobaczy, jak wyglądało na świecie budowanie ruchu LGBT, niech zobaczy jak wyglądało budowanie tej ideologii, jakie poglądy głosili ci, którzy ją budowali.\",\n    \"corpus_variant\": \"base\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/similarity/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"similarity",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET text",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/text/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"text",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

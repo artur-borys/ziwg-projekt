@@ -1,0 +1,28 @@
+@import '../../../../styles.sass'
+
+.statement
+    display: flex
+    justify-content: space-between
+    margin: 1rem 0rem
+    padding: 1.5rem
+    box-shadow: 0 2px 5px 0 $shadow
+    background-color: $primary
+    &-date
+        color: $textGray
+        font-size: 0.9rem
+        padding-top: 0.5rem
+        padding-bottom: 0.5rem
+    &-author
+        font-weight: bold
+        font-size: 1.1rem 
+    &-col:first-child
+        flex: 4
+        text-align: justify
+        padding-right: 1.5rem
+    &-col:last-child
+        flex: 1
+        display: flex
+        align-items: center
+        justify-content: center
+        font-weight: bold
+        font-size: 1.2rem 

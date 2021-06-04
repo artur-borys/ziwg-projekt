@@ -3,6 +3,18 @@ from tensorflow.keras.preprocessing.text import Tokenizer
 from sklearn.metrics.pairwise import cosine_similarity
 import utils
 
+def calculate_cos(text1: str, text2: str, method: str) -> float:
+  texts = [text1, text2]
+
+  model = Tokenizer()
+  model.fit_on_texts(texts)
+  rep = model.texts_to_matrix(texts, mode=method)
+  similarity = cosine_similarity(rep)
+
+  score = similarity[0, 1]
+
+  return score
+
 def calculate_cosine_similarity_for_pairs(corpus: pd.DataFrame, method: str) -> list:
   print('Obliczanie kosinusowej odległości dla wszystkich par')
   pairs = utils.get_pairs(corpus)
@@ -77,3 +89,39 @@ def jaccard_similarity_pairwise(corpus: pd.DataFrame) -> list:
   print('Gotowe')
   
   return similarities
+
+def compare_text_with_corpus_jaccard(text: str, corpus: pd.DataFrame, display_corpus: pd.DataFrame):
+  results = []
+  for id, entry in corpus.iterrows():
+    entry_text = entry['Treść']
+    score = jaccard_similarity(text, entry_text)
+    result = {
+      'score': score,
+      **utils.translate_statement_dict(entry),
+      'text': display_corpus.iloc[id]['Treść']
+    }
+
+    results.append(result)
+  
+  results = sorted(results, key=lambda r: r['score'], reverse=True)
+
+  return results
+
+def compare_text_with_corpus_cosine(text: str, corpus: pd.DataFrame, method: str, display_corpus: pd.DataFrame):
+  results = []
+
+  for id, entry in corpus.iterrows():
+    entry_text = entry['Treść']
+    score = calculate_cos(text, entry_text, method)
+
+    result = {
+      'score': score,
+      **utils.translate_statement_dict(entry),
+      'content': display_corpus.iloc[id]['Treść']
+    }
+
+    results.append(result)
+  
+  results = sorted(results, key=lambda r: r['score'], reverse=True)
+
+  return results

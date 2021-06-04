@@ -12,6 +12,8 @@ matplotlib = "*"
 openpyxl = "*"
 beautifulsoup4 = "*"
 lxml = "*"
+aiohttp = "*"
+aiohttp-cors = "*"
 
 [dev-packages]
 
