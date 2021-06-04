@@ -72,7 +72,7 @@ W przypadku nie podania `corpus_name` zwraca status 400
 }
 ```
 
-### ``POST /similarity/``
+### ``POST /similarity``
 Zwraca posortowaną listę według wyniku podobieństwa. Przyjmuje zapytanie o treści w formacie JSON:
 
 W przypadku błędu w zapytaniu, zwróci odpowiedź o kodzie 400 (Bad Request), a w kluczu `errors` będą opisane błędy.
