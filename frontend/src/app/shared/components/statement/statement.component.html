@@ -1,0 +1,10 @@
+<div class="statement">
+    <div class="statement-col">
+        <p class="statement-author">{{ statement.author }} ({{ statement.party }}) - {{ statement.summary }}</p>
+        <p class="statement-date">{{ statement.date }}</p>
+        <p>{{ statement.content }}</p>
+    </div>
+    <div class="statement-col" [ngClass]="getColor(statement.score)">
+        {{ statement.score * 100 | number : '1.2-2' }} %
+    </div>
+</div>
