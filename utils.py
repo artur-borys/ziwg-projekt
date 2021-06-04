@@ -1,6 +1,6 @@
 import glob
 from itertools import combinations
-from os import stat
+from os import stat, path
 import pandas as pd
 from requests.api import head
 import clarin
@@ -98,7 +98,9 @@ def translate_statement_dict(statement):
   }
 
 def get_available_corpuses():
+  # UGH, Łanadołs kurła!
+  separator = path.sep
   # Find only primary corpuses, discard *_base variants
-  corpuses = glob.glob("./corpuses/*[!_base].tsv")
-  corpuses = [c.split('/')[2].split('.tsv')[0] for c in corpuses]
+  corpuses = glob.glob(f".{separator}corpuses{separator}*[!_base].tsv")
+  corpuses = [c.split(separator)[2].split('.tsv')[0] for c in corpuses]
   return corpuses
