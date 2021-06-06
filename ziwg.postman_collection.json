@@ -6,13 +6,24 @@
 	},
 	"item": [
 		{
-			"name": "POST text",
+			"name": "POST similarity",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"method\": \"tfidf\",\n    \"text\": \"Próbuje się nam proszę państwa wmówić, że to ludzie. A to jest po prostu ideologia. Jeżeli ktoś ma jakiekolwiek wątpliwości, czy to jest ideologia, czy nie, to niech sobie zajrzy w karty historii i zobaczy, jak wyglądało na świecie budowanie ruchu LGBT, niech zobaczy jak wyglądało budowanie tej ideologii, jakie poglądy głosili ci, którzy ją budowali.\",\n    \"corpus_variant\": \"base\"\n}",
+					"raw": "{\n    \"method\": \"tfidf\",\n    \"text\": \"Próbuje się nam proszę państwa wmówić, że to ludzie. A to jest po prostu ideologia. Jeżeli ktoś ma jakiekolwiek wątpliwości, czy to jest ideologia, czy nie, to niech sobie zajrzy w karty historii i zobaczy, jak wyglądało na świecie budowanie ruchu LGBT, niech zobaczy jak wyglądało budowanie tej ideologii, jakie poglądy głosili ci, którzy ją budowali.\",\n    \"corpus_variant\": \"full\",\n    \"corpus_name\": \"wypowiedzi_politykow\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,15 +31,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/similarity/",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/similarity",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
-						"similarity",
-						""
+						"similarity"
 					]
 				}
 			},
@@ -40,12 +48,10 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080",
-					"protocol": "http",
+					"raw": "{{baseUrl}}",
 					"host": [
-						"localhost"
-					],
-					"port": "8080"
+						"{{baseUrl}}"
+					]
 				}
 			},
 			"response": []
@@ -56,19 +62,71 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/text/1",
-					"protocol": "http",
+					"raw": "{{baseUrl}}/text/1?corpus_name=wypowiedzi_politykow",
 					"host": [
-						"localhost"
+						"{{baseUrl}}"
 					],
-					"port": "8080",
 					"path": [
 						"text",
 						"1"
+					],
+					"query": [
+						{
+							"key": "corpus_name",
+							"value": "wypowiedzi_politykow"
+						}
 					]
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "GET corpuses",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/corpuses",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"corpuses"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.request.headers.add({ key: 'Origin', value: pm.collectionVariables.get(\"origin\")})",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		},
+		{
+			"key": "origin",
+			"value": "http://localhost:3000"
 		}
 	]
 }

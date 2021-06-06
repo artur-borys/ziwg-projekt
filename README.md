@@ -27,6 +27,10 @@ python similarity_tests.py --all
 * ``wypowiedzi_base.tsv`` - zawiera wypowiedzi po sprowadzeniu wyrazów do formy podstawowej
 * ``results/*`` - tutaj należy zapisywać wyniki testów, patrz na plik ``similarity_tests.py``
 * ``server.py`` - serwer API projektu
+* ``front/`` - kod źródłowy front-endu
+* ``corpuses/`` - zawiera korpusy dla serwera API. Każdy korpus powinien być w dwóch wariantach:
+  * ``nazwa_korpusu.tsv`` - na wzór ``corpuses/wypowiedzi_polityków.tsv``
+  * ``nazwa_korpusu_base.tsv`` - na wzór ``corpuses/wypowiedzi_politykow_base.tsv``, czyli po lematyzacji
 
 # Dokumentowanie
 Można skorzystać z [docstringów](https://www.python.org/dev/peps/pep-0257/). Wtedy po najechaniu myszą na daną metodę, powinien być widoczny opis i argumenty.
@@ -42,7 +46,7 @@ Podstawową metodą jest tam ``request(lpmn, text)``, która wysyła zapytanie d
 
 Trzeba określić użytkownika za pomocą ``set_user(user)``. Powinien to być adres e-mail, ale pewnie może to być cokolwiek - nie trzeba się nigdzie rejestrować.
 
-Oprócz tego jest tam metoda ``get_base_words(text)``, która przekształca zadany tekst w taki, który zawiera podstawowe formy wyrazów, co może być przydatne w niektórych metodach.
+Oprócz tego jest tam metoda ``get_base_words(text)``, która przekształca zadany tekst w taki, który zawiera podstawowe formy wyrazów, co może być przydatne w niektórych metodach. Ogółem tzw. **lematyzacja**
 
 # Instalacja nowych modułów
 Najlepiej zrobić to za pomocą pipenva:

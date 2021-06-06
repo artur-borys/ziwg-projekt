@@ -13,11 +13,23 @@
             </select>
         </div>
         <div>
-            <label>Wybierz wariant korpusu:</label>
-            <select formControlName="corpus_variant">
-                <option value="full">Pełne wypowiedzi</option>
-                <option value="base">Wypowiedzi w formie podstawowej</option>
+            <label>Wybierz korpus:</label>
+            <select formControlName="corpus_name">
+                <option *ngFor="let corpus of corpuses$ | async" [value]="corpus">{{ corpus }}</option>
             </select>
+        </div>
+        <div>
+            <p>Wybierz wariant korpusu:</p>
+            <div class="radios">
+                <div class="radio">
+                    <input id="full_corpus" type="radio" value="full" formControlName="corpus_variant"/>
+                    <label for="full_corpus">Pełne wypowiedzi</label>
+                </div>
+                <div class="radio">
+                    <input id="base_corpus" type="radio" value="base" formControlName="corpus_variant"/>
+                    <label for="base_corpus">Wypowiedzi w formie podstawowej</label>
+                </div>
+            </div>
         </div>
         <div class="buttons">
             <button [disabled]="!form.valid" type="submit">Potwierdź</button>
