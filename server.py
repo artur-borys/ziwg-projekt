@@ -3,7 +3,7 @@ import aiohttp
 from aiohttp.web_app import Application
 from aiohttp.web_exceptions import HTTPBadRequest, HTTPNotFound
 from numpy.lib import utils
-from similarities import compare_text_with_corpus_cosine, compare_text_with_corpus_jaccard
+from similarities import compare_text_with_corpus_cosine, compare_text_with_corpus_jaccard, compare_text_with_corpus_fasttext
 from utils import get_available_corpuses, load_statements, translate_statement_dict
 from aiohttp import web
 import aiohttp_cors
@@ -94,7 +94,7 @@ async def post_similarity(request):
     else:
       errors.append('INVALID_CORPUS_VARIANT')
     
-    if method not in ['bow', 'tfidf', 'jaccard']:
+    if method not in ['bow', 'tfidf', 'jaccard', 'fastText']:
       errors.append('INVALID_METHOD')
   except KeyError as e:
     if e.args[0] == 'text':
@@ -123,6 +123,8 @@ async def post_similarity(request):
     results = compare_text_with_corpus_cosine(text, corpus, 'count', display_corpus=display_corpus)
   elif method == 'tfidf':
     results = compare_text_with_corpus_cosine(text, corpus, 'tfidf', display_corpus=display_corpus)
+  elif method == 'fastText':
+    results = compare_text_with_corpus_fasttext(text, corpus, display_corpus=display_corpus)
 
   return web.json_response(results)
 
