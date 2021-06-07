@@ -17,6 +17,8 @@ python similarity_tests.py --all
 ```
 
 **UWAGA** użyjcie swojego adresu e-mail w ``clarin.set_user(adres_email)``
+
+**UWAGA2** żeby fastText działał trzeba ściągnąć wytrenowany polski model z `https://fasttext.cc/docs/en/pretrained-vectors.html`(bin+text), zmienić jego nazwę na fastTextModel.bin(z wiki.pl.bin) i wrzucić do folderu z projektem 
 # Struktura
 * ~~``main.py``~~ - w sumie sobie tak o jest, można zmienić, tam tylko próbowałem wczytać wypowiedzi z tsv
 * ``clarin.py`` - kod komunikacji z API Clarinu
