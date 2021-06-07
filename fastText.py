@@ -1,8 +1,7 @@
 import fasttext
 
-def train_fasttext(filePath, type):
+def train_fasttext():
     print("Training fastText started...")
-    global model
-    model = fasttext.train_unsupervised(filePath, type)
+    model = fasttext.load_model("fastTextModel.bin")
     return model
 

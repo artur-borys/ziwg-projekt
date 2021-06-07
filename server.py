@@ -3,6 +3,8 @@ import aiohttp
 from aiohttp.web_app import Application
 from aiohttp.web_exceptions import HTTPBadRequest, HTTPNotFound
 from numpy.lib import utils
+
+from fastText import train_fasttext
 from similarities import compare_text_with_corpus_cosine, compare_text_with_corpus_jaccard, compare_text_with_corpus_fasttext
 from utils import get_available_corpuses, load_statements, translate_statement_dict
 from aiohttp import web
@@ -12,6 +14,8 @@ import argparse
 import clarin
 
 clarin.set_user('241323@student.pwr.edu.pl')
+
+fastTextModel = train_fasttext()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--port', '-p', type=int, help='Port nasłuchiwania', default=8080)
@@ -124,7 +128,7 @@ async def post_similarity(request):
   elif method == 'tfidf':
     results = compare_text_with_corpus_cosine(text, corpus, 'tfidf', display_corpus=display_corpus)
   elif method == 'fastText':
-    results = compare_text_with_corpus_fasttext(text, corpus, display_corpus=display_corpus)
+    results = compare_text_with_corpus_fasttext(text, corpus, fastTextModel, display_corpus=display_corpus)
 
   return web.json_response(results)
 
