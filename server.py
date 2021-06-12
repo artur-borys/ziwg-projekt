@@ -15,7 +15,7 @@ import clarin
 
 clarin.set_user('241323@student.pwr.edu.pl')
 
-fastTextModel = train_fasttext()
+# fastTextModel = train_fasttext()
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--port', '-p', type=int, help='Port nasłuchiwania', default=8080)

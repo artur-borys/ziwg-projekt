@@ -13,7 +13,7 @@ def calculate_cos(text1: str, text2: str, method: str) -> float:
 
   score = similarity[0, 1]
 
-  return score
+  return min(max(score, 0), 1)
 
 def calculate_cosine_similarity_for_pairs(corpus: pd.DataFrame, method: str) -> list:
   print('Obliczanie kosinusowej odległości dla wszystkich par')
@@ -58,7 +58,7 @@ def jaccard_similarity(text1: str, text2: str) -> float:
   # Podobieństwo Jaccarda
   similarity = len(intersection)/len(union)
 
-  return similarity
+  return min(max(similarity, 0), 1) 
 
 def jaccard_similarity_pairwise(corpus: pd.DataFrame) -> list:
   """ Zwraca listę z wynikami dla podobieństwa Jaccarda
@@ -109,9 +109,12 @@ def compare_text_with_corpus_jaccard(text: str, corpus: pd.DataFrame, display_co
 
 def compare_text_with_corpus_cosine(text: str, corpus: pd.DataFrame, method: str, display_corpus: pd.DataFrame):
   results = []
+  if method == 'count':
+    text = utils.remove_linking_words(text)
 
   for id, entry in corpus.iterrows():
-    entry_text = entry['Treść']
+    entry_text = utils.remove_linking_words(entry['Treść']) if method == 'count' else entry['Treść']
+
     score = calculate_cos(text, entry_text, method)
 
     result = {

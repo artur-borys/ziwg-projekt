@@ -4,6 +4,7 @@ from os import stat, path
 import pandas as pd
 from requests.api import head
 import clarin
+import re
 
 def export_to_excel(corpus, similarities, filename='results'):
   print(f'Eksportowanie do arkusza Excel ({filename}.xlsx)...')
@@ -104,3 +105,9 @@ def get_available_corpuses():
   corpuses = glob.glob(f".{separator}corpuses{separator}*[!_base].tsv")
   corpuses = [c.split(separator)[2].split('.tsv')[0] for c in corpuses]
   return corpuses
+
+def remove_linking_words(text: str) -> str:
+  linking_words_regex = r'\s+(i|ale|jednak|lecz|albo|bądź|oraz|a|także|lub|też|no)\s+'
+  while re.search(linking_words_regex, text):
+    text = re.sub(linking_words_regex, " ", text)
+  return text
