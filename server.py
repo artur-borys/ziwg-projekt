@@ -15,7 +15,8 @@ import clarin
 
 clarin.set_user('241323@student.pwr.edu.pl')
 
-fastTextModel = train_fasttext()
+fastTextModelPL = train_fasttext()
+fastTextModelEN = train_fasttext(english=True)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--port', '-p', type=int, help='Port nasłuchiwania', default=8080)
@@ -98,7 +99,7 @@ async def post_similarity(request):
     else:
       errors.append('INVALID_CORPUS_VARIANT')
     
-    if method not in ['bow', 'tfidf', 'jaccard', 'fastText']:
+    if method not in ['bow', 'tfidf', 'jaccard', 'fastTextPL', 'fastTextEN']:
       errors.append('INVALID_METHOD')
   except KeyError as e:
     if e.args[0] == 'text':
@@ -127,8 +128,10 @@ async def post_similarity(request):
     results = compare_text_with_corpus_cosine(text, corpus, 'count', display_corpus=display_corpus)
   elif method == 'tfidf':
     results = compare_text_with_corpus_cosine(text, corpus, 'tfidf', display_corpus=display_corpus)
-  elif method == 'fastText':
-    results = compare_text_with_corpus_fasttext(text, corpus, fastTextModel, display_corpus=display_corpus)
+  elif method == 'fastTextPL':
+    results = compare_text_with_corpus_fasttext(text, corpus, fastTextModelPL, display_corpus=display_corpus)
+  elif method == 'fastTextEN':
+    results = compare_text_with_corpus_fasttext(text, corpus, fastTextModelEN, display_corpus=display_corpus)
 
   return web.json_response(results)
 

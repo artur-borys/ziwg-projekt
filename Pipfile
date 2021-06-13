@@ -15,6 +15,9 @@ lxml = "*"
 aiohttp = "*"
 aiohttp-cors = "*"
 fasttext="*"
+requests="*"
+nltk="*"
+pattern="*"
 
 [dev-packages]
 

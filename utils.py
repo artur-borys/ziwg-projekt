@@ -1,10 +1,13 @@
 import glob
 from itertools import combinations
 from os import stat, path
+import os
 import pandas as pd
 from requests.api import head
 import clarin
 import re
+from nltk.stem import WordNetLemmatizer
+from english_lemmatization import lemmatize
 
 def export_to_excel(corpus, similarities, filename='results'):
   print(f'Eksportowanie do arkusza Excel ({filename}.xlsx)...')
@@ -88,6 +91,15 @@ def convert_statements_to_base_words_and_load(filepath: str) -> pd.DataFrame:
   statements.to_csv(filepath.replace('.tsv', '_base.tsv'), sep="\t",index= False ,header=True)
 
   return statements
+  
+def convert_statements_to_base_words_and_load_english(filepath: str) -> pd.DataFrame:
+  statements = load_statements(filepath)
+  
+  print('Konwertowanie wyrazów do ich podstawowej formy (ANGIELSKI).')
+  statements['Treść'] = statements['Treść'].apply(lambda text: lemmatize(text))
+  statements.to_csv(filepath.replace('.tsv', '_base.tsv'), sep="\t",index= False ,header=True)
+
+  return statements
 
 def translate_statement_dict(statement):
   return {
@@ -102,7 +114,8 @@ def get_available_corpuses():
   # UGH, Łanadołs kurła!
   separator = path.sep
   # Find only primary corpuses, discard *_base variants
-  corpuses = glob.glob(f".{separator}corpuses{separator}*[!_base].tsv")
+  corpuses = [fn for fn in glob.glob(f".{separator}corpuses{separator}*.tsv") if not os.path.basename(fn).endswith('_base.tsv')]
+  print(corpuses)
   corpuses = [c.split(separator)[2].split('.tsv')[0] for c in corpuses]
   return corpuses
 
