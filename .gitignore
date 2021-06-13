@@ -3,5 +3,7 @@ __pycache__
 *.pyc
 .DS_Store
 .idea/
-fastTextModel.bin
-fastTextModel.vec
+fastTextModel-EN.bin
+fastTextModel-EN.vec
+fastTextModel-PL.bin
+fastTextModel-PL.vec

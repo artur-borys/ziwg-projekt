@@ -1,7 +1,9 @@
 import fasttext
 
-def train_fasttext():
+def train_fasttext(english=False):
     print("Training fastText started...")
-    model = fasttext.load_model("fastTextModel.bin")
-    return model
+    if english:
+        return fasttext.load_model("fastTextModel-EN.bin")
+    else:
+        return fasttext.load_model("fastTextModel-PL.bin")
 
